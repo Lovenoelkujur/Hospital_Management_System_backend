@@ -8,6 +8,7 @@ const dbConnection = require("./database/dbConnection");
 const messageRouter = require("./routers/messageRouter");
 const {errorMiddleware} = require("./middlewares/error");
 const userRouter = require("./routers/userRouter");
+const appointmentRouter = require("./routers/appointmentRouter");
 
 const app = express();
 
@@ -19,7 +20,7 @@ dotenv.config({
 app.use(
     cors({
         origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
-        methods : ["GE", "POST", "PUT", "DELETE"],
+        methods : ["GET", "POST", "PUT", "DELETE"],
         credentials : true,
     })
 );
@@ -37,6 +38,7 @@ app.use(fileUpload({
 // Route
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/appointment", appointmentRouter);
 
 dbConnection();
 
