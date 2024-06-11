@@ -54,9 +54,32 @@ const login = catchAsyncErrors(async(req, res, next) => {
 
 });
 
-const authContainer = {
+// Admin Registration
+const addNewAdmin = catchAsyncErrors(async(req, res, next) => {
+
+    const {firstName, lastName, email, phone, uid, dob, gender, password, role} = req.body;
+
+    if(!firstName || !lastName || !email || !phone || !uid || !dob || !gender || !password){
+        return next(new ErrorHandler("Please Complete all the Details", 400));
+    }
+
+    const isRegistered = await userModel.findOne({email});
+    if(isRegistered){
+        return next(new ErrorHandler(`${isRegistered.role} with this Email already exists !`));
+    }
+
+    const admin = await userModel.create({firstName, lastName, email, phone, uid, dob, gender, password, role : "Admin"});
+    res.status(200).json({
+        success : true,
+        message : "New Admin Register Successfully.",
+    });
+});
+
+// Container to export funtions
+const userContainer = {
     patientRegistration,
     login,
+    addNewAdmin,
 }
 
-module.exports = authContainer;
+module.exports = userContainer;

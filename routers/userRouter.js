@@ -1,12 +1,16 @@
 const express = require("express");
-const {patientRegistration, login} = require("../controllers/userController");
+const {patientRegistration, login, addNewAdmin} = require("../controllers/userController");
+const {isAdminAuthenticated, isPatientAuthenticated} = require("../middlewares/auth");
 
 const router = express.Router();
 
-// Registration
+// User Registration
 router.post("/patient/register", patientRegistration);
 
-// Login
+// User Login
 router.post("/login", login);
+
+// Admin Registration
+router.post("/admin/addnew", isAdminAuthenticated, addNewAdmin);
 
 module.exports = router;
