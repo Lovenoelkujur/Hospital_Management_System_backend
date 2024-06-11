@@ -16,6 +16,19 @@ const sendMessage = catchAsyncError(async (req, res, next) => {
         message : "Message Sent Successfully."
     });
 
-})
+});
 
-module.exports = sendMessage;
+const getAllMessages = catchAsyncError(async(req, res, next) => {
+    const messages = await messageModel.find();
+    res.status(200).json({
+        success : true,
+        messages,
+    });
+});
+
+const messageContainer = {
+    sendMessage,
+    getAllMessages,
+}
+
+module.exports = messageContainer;
