@@ -140,9 +140,9 @@ const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
         return next(new ErrorHandler("File Format Not Supported !", 400));
     }
 
-    const {firstName, lastName, email, phone, uid, dob, gender, password, docterDepartment} = req.body;
+    const {firstName, lastName, email, phone, uid, dob, gender, password, doctorDepartment} = req.body;
 
-    if(!firstName || !lastName || !email || !phone || !uid || !dob || !gender || !password || !docterDepartment){
+    if(!firstName || !lastName || !email || !phone || !uid || !dob || !gender || !password || !doctorDepartment){
         return next(new ErrorHandler("Please Complete all the Details !", 400));
     }
 
@@ -164,7 +164,7 @@ const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
     }
 
     const doctor = await userModel.create({
-        firstName, lastName, email, phone, uid, dob, gender, password, role : "Doctor",  docterDepartment, 
+        firstName, lastName, email, phone, uid, dob, gender, password, role : "Doctor",  doctorDepartment, 
         docAvatar : {
             public_id : cloudinaryResponse.public_id, 
             url : cloudinaryResponse.secure_url,
