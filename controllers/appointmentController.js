@@ -33,7 +33,7 @@ const postAppointment = catchAsyncError(async(req, res, next) => {
     const doctorId = isConflict[0]._id;
     const patientId = req.user._id;
     const appointment = await appointmentModel.create({
-        firstName, lastName, email, phone, uid, dob, gender, appointment_date, department,
+        firstName, lastName, email, phone, uid, dob, gender, appointment_date, department,  
         doctor : {
             firstName : doctor_firstName,
             lastName : doctor_lastName,
