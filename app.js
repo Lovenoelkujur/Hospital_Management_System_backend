@@ -1,6 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const cors = require("cors");
+// const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 
@@ -25,7 +25,7 @@ dotenv.config({
 //     })
 // );
 
-app.use(cors());
+// app.use(cors());
 
 app.use(cookieParser());    // To pass Cookie
 app.use(express.json());    // To pass json data
