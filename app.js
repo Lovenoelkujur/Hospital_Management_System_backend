@@ -25,7 +25,7 @@ dotenv.config({
 //     })
 // );
 
-const whitelist = ['http://example1.com', 'http://example2.com']
+const whitelist = [process.env.FRONTEND_URL, process.env.DASHBOARD_URL]
 const corsOptions = {
   origin : function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
