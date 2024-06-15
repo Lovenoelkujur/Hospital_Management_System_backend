@@ -40,7 +40,7 @@ const corsOptions = {
       }
   },
   methods : ["GET", "POST", "PUT", "DELETE"],
-  credentials : true,
+//   credentials : true,
 }
 
 app.use(cors(corsOptions));
