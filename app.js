@@ -17,13 +17,15 @@ dotenv.config({
 });
 
 // Link Frontend
-app.use(
-    cors({
-        origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
-        methods : ["GET", "POST", "PUT", "DELETE"],
-        credentials : true,
-    })
-);
+// app.use(
+//     cors({
+//         origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+//         methods : ["GET", "POST", "PUT", "DELETE"],
+//         credentials : true,
+//     })
+// );
+
+app.use(cors());
 
 app.use(cookieParser());    // To pass Cookie
 app.use(express.json());    // To pass json data
