@@ -17,15 +17,28 @@ dotenv.config({
 });
 
 // Link Frontend
-app.use(
-    cors({
-        origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
-        methods : ["GET", "POST", "PUT", "DELETE"],
-        credentials : true,
-    })
-);
+// app.use(
+//     cors({
+//         origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+//         methods : ["GET", "POST", "PUT", "DELETE"],
+//         credentials : true,
+//     })
+// );
 
-// app.use(cors());
+const whitelist = ['http://example1.com', 'http://example2.com']
+const corsOptions = {
+  origin : function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  methods : ["GET", "POST", "PUT", "DELETE"],
+  credentials : true,
+}
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());    // To pass Cookie
 app.use(express.json());    // To pass json data
