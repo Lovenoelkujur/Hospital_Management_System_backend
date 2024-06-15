@@ -1,6 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
-// const cors = require("cors");
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 
@@ -17,13 +17,13 @@ dotenv.config({
 });
 
 // Link Frontend
-// app.use(
-//     cors({
-//         origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
-//         methods : ["GET", "POST", "PUT", "DELETE"],
-//         credentials : true,
-//     })
-// );
+app.use(
+    cors({
+        origin : [process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+        methods : ["GET", "POST", "PUT", "DELETE"],
+        credentials : true,
+    })
+);
 
 // app.use(cors());
 
