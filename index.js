@@ -1,6 +1,6 @@
 const app = require("./app");
 const cloudinary = require("cloudinary");
-// const cors = require("cors");
+
 
 const port = process.env.PORT;
 
@@ -10,7 +10,6 @@ cloudinary.v2.config({
     api_secret : process.env.CLOUDINARY_API_SECRET,
 });
 
-// app.use(cors());
 
 app.listen(port, () => {
     console.log(`server is up and running at port : ${port}`);

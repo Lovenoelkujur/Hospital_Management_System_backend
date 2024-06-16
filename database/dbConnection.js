@@ -7,8 +7,8 @@ const dbConnection = () => {
     .then(() => {
         console.log("DB Connection Successfull.");
     })
-    .catch(error => {
-        console.log(`Some Error Occured while connecting to database : ${error}`);
+    .catch((err) => {
+        console.log("Some Error Occured while connecting to database : ", err);
     })
 }
 

@@ -5,7 +5,7 @@ const {ErrorHandler} = require("../middlewares/error");
 const userModel = require("../models/userSchema");
 const generateToken = require("../utils/jwtToken");
 
-// Registration
+// Patient Registration
 const patientRegistration = catchAsyncErrors(async(req, res, next) => {
     // console.log(req.body);
     const {firstName, lastName, email, phone, uid, dob, gender, password, role} = req.body;
@@ -14,12 +14,12 @@ const patientRegistration = catchAsyncErrors(async(req, res, next) => {
         return next(new ErrorHandler("Please Complete all the Details", 400));
     }
 
-    let user = await userModel.findOne({email});
-    if(user){
+    const isRegistered = await userModel.findOne({email});
+    if(isRegistered){
         return next(new ErrorHandler("User Already Registered !", 400));
     }
-    user = await userModel.create({
-        firstName, lastName, email, phone, uid, dob, gender, password, role,
+    const user = await userModel.create({
+        firstName, lastName, email, phone, uid, dob, gender, password, role : "Patient",
     });
 
     generateToken(user, "User Registered Successfully.", 200, res);
@@ -52,7 +52,7 @@ const login = catchAsyncErrors(async(req, res, next) => {
         return next(new ErrorHandler("User with this role not found !", 400));
     }
 
-    generateToken(user, "User Logged in Successfully.", 200, res);
+    generateToken(user, "User Logged in Successfully.", 201, res);
 
 });
 
@@ -67,7 +67,7 @@ const addNewAdmin = catchAsyncErrors(async(req, res, next) => {
 
     const isRegistered = await userModel.findOne({email});
     if(isRegistered){
-        return next(new ErrorHandler(`${isRegistered.role} with this Email already exists !`));
+        return next(new ErrorHandler("Admin with this Email Already Exists !", 400));
     }
 
     const admin = await userModel.create({
@@ -76,6 +76,7 @@ const addNewAdmin = catchAsyncErrors(async(req, res, next) => {
     res.status(200).json({
         success : true,
         message : "New Admin Register Successfully.",
+        admin,
     });
 });
 
@@ -102,7 +103,7 @@ const getUserDetails = catchAsyncErrors(async(req, res, next) => {
 // Logout Admin
 const logoutAdmin = catchAsyncErrors(async(req, res, next) => {
     res
-        .status(200)
+        .status(201)
         .cookie("adminToken", "", {
             httpOnly : true,
             expires : new Date(Date.now()),
@@ -116,7 +117,7 @@ const logoutAdmin = catchAsyncErrors(async(req, res, next) => {
 // Logout Patient
 const logoutPatient = catchAsyncErrors(async(req, res, next) => {
     res
-        .status(200)
+        .status(201)
         .cookie("patientToken", "", {
             httpOnly : true,
             expires : new Date(Date.now()),
@@ -148,7 +149,7 @@ const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
 
     const isRegistered = await userModel.findOne({email});
     if(isRegistered){
-        return next(new ErrorHandler(`${isRegistered.role} already registered with this email !`, 400));
+        return next(new ErrorHandler("Doctor With This Email Already Exists! !", 400));
     }
 
     // Upload Avator in Cloud
@@ -160,6 +161,9 @@ const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
         console.error(
             "Cloudinary Error : ",
             cloudinaryResponse.error || "unknown Cloudinary Error"
+        );
+        return next(
+            new ErrorHandler("Failed To Upload Doctor Avatar To Cloudinary", 500)
         );
     }
 

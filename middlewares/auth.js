@@ -36,10 +36,25 @@ const isPatientAuthenticated = catchAsyncError(async(req, res, next) => {
     next();
 });
 
+// Is Authorized
+const isAuthorized = (...roles) => {
+    return(req, res, next) => {
+        if(!roles.includes(req.user.role)){
+            return next(
+                new ErrorHandler(
+                    `${req.user.role} not allowed to access this resource!`
+                )
+            )
+        }
+        next();
+    }
+}
+
 // Container of function to export
 const authContainer = {
     isAdminAuthenticated,
     isPatientAuthenticated,
+    isAuthorized,
 }
 
 module.exports = authContainer;
